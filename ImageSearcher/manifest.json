@@ -13,21 +13,26 @@
   "permissions": [
     "contextMenus",
     "storage",
-    "tabs"
+    "*://*.pictshare.net/",
+    "*://images.google.com/*",
+    "*://google.com/*",
+    "*://yandex.ru/*",
+    "tabs",
+    "activeTab",
+    "<all_urls>"
   ],
 
   "background": {
-    "scripts": ["example.js"]
+    "scripts": ["contextMenu.js"]
   },
 
-  "icons": {  "16": "Images/icons/icon16.png",
-              "48": "Images/icons/icon48.png",
-             "128": "Images/icons/icon128.png" },
+  "web_accessible_resources": [
+    "Images/icons/*.png"
+  ],
 
-  "content_scripts": [
-    {
-      "matches": ["<all_urls>"],
-      "js": ["starter.js"]
-    }
-  ]
+  "icons": {  
+    "16": "Images/icons/icon16.png",
+    "48": "Images/icons/icon48.png",
+    "128": "Images/icons/icon128.png" 
+  }
 }
