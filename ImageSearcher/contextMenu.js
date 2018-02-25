@@ -12,7 +12,10 @@ function genericOnClick(info, tab) {
   if (info.srcUrl.indexOf(".webp") > 0 && info.linkUrl) {
     if (info.linkUrl.indexOf("youtube.com/watch?v") > 0) {
       src = "http://i1.ytimg.com/vi/" + info.linkUrl.substring(info.linkUrl.indexOf("=") + 1, info.linkUrl.length) + "/maxresdefault.jpg";
-    } else alert("inappropriate type( \nPls, use ImageSearch mode"); //TO DO
+    } else {
+      alert("inappropriate type( \nPls, use ImageSearch mode"); //TO DO
+      return;
+    }
   }
   if (info.srcUrl.substring(0, 4) == "data") {
     uploadBase64(info);
@@ -52,15 +55,8 @@ function uploadBase64(info) {
 
 
 function OnClickImageSearchMode() {
-  // chrome.storage.local.get(['ISstatus'], function(ISstatus) {
-    // console.log(ISstatus);
-    // if (ISstatus.ISstatus == "1") {
-      // console.log("deact")
-      // chrome.storage.local.set({'ISstatus': "0"});
-      // chrome.runtime.sendMessage({todo: "deactISMode"})
-    /*} else*/ chrome.tabs.executeScript(null, {file: "html2canvas.min.js"});
-    /*} else*/ chrome.tabs.executeScript(null, {file: "embed.js"});
-  // });
+  chrome.tabs.executeScript(null, {file: "html2canvas.min.js"});
+  chrome.tabs.executeScript(null, {file: "embed.js"});
 }
 
 // На каких элементах буит появлятся менюшка
@@ -103,4 +99,17 @@ var mode = chrome.contextMenus.create({
   "title": "ImageSearch mode", 
   "contexts": ["video"], 
   "onclick": OnClickImageSearchMode
+});
+
+chrome.commands.onCommand.addListener(function(command) {
+  if (command == "execute_imagesearch_script") {
+    OnClickImageSearchMode();
+  }
+});
+
+chrome.runtime.onMessage.addListener(function(request, sender, sendResponse) {
+  console.log(request);
+  if (request.todo == "openNewTab") {
+    chrome.tabs.create({"url": request.url});
+  }
 });

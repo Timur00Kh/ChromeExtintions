@@ -19,7 +19,9 @@
     "*://yandex.ru/*",
     "tabs",
     "activeTab",
-    "<all_urls>"
+    "<all_urls>",
+    "http://*/",
+    "https://*/"
   ],
 
   "background": {
@@ -30,9 +32,24 @@
     "Images/icons/*.png"
   ],
 
+  "commands": {
+    "execute_imagesearch_script": {
+      "suggested_key": {
+        "default": "Ctrl+I",
+        "mac": "Command+Shift+I"
+      },
+    "description": "Execute ImageSearch script"
+    }
+  },
+
   "icons": {  
     "16": "Images/icons/icon16.png",
     "48": "Images/icons/icon48.png",
     "128": "Images/icons/icon128.png" 
+  },
+
+  "externally_connectable": {
+    "matches": ["https://yandex.ru/*"],
+    "accepts_tls_channel_id": false
   }
 }
