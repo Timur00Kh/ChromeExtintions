@@ -55,7 +55,7 @@ function uploadBase64(info) {
 
 
 function OnClickImageSearchMode() {
-  chrome.tabs.executeScript(null, {file: "html2canvas.min.js"});
+  // chrome.tabs.executeScript(null, {file: "html2canvas.min.js"});
   chrome.tabs.executeScript(null, {file: "embed.js"});
 }
 

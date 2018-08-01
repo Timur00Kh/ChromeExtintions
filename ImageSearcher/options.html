@@ -1,0 +1,552 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Options</title>
+</head>
+<link href="css/bootstrap/bootstrap.min.css" rel="stylesheet">
+<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.1.1/css/all.css">
+<link href="css/MDToggle.css" rel="stylesheet">
+<link href="css/MDCheckbox.css" rel="stylesheet">
+
+<!--<script src="css/bootstrap/bootstrap.min.js"></script>-->
+<!--<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>-->
+<!--<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.0/umd/popper.min.js"></script>-->
+<!--<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.1.0/js/bootstrap.min.js"></script>-->
+<!--<script src="css/bootstrap/bootstrap.bundle.min.js"></script>-->
+
+<!--<link rel="stylesheet" href="/css/highlight.js/styles/default.css">-->
+<!--<script src="/css/highlight.js/highlight.pack.js"></script>-->
+
+<style>
+
+    @media screen and (min-width: 576px) {
+        .search-engine{
+            margin-bottom:3px
+        }
+
+
+    }
+
+    .container {
+        padding-right: 0;
+        padding-left: 0;
+    }
+
+    .bubble {
+        animation: animateElement linear .3s;
+        animation-iteration-count: 1;
+    }
+
+    .stat {
+       display: inline-block;
+        /*margin-top: -1px;*/
+
+    }
+
+    .stat:hover {
+        width: 100% !important;
+        display: inline-block;
+    }
+
+    .stat .stat-inner {
+        animation: animStat linear 0.8s;
+
+    }
+
+    @keyframes animStat {
+        0%{
+            opacity: 0;
+        }
+        50%{
+            opacity: 0.1;
+        }
+        100%{
+            opacity: 1;
+        }
+    }
+
+    /*.statistics:hover {
+        height: 50px;
+        transition: height ease .5s;
+    }*/
+
+    @keyframes animateElement{
+        0% {
+            opacity:0;
+            transform:  translate(0px,1px);
+        }
+        100% {
+            opacity:1;
+            transform:  translate(0px,0px);
+        }
+    }
+
+    .bubble-width {
+        animation: animateElement ease 4s;
+        animation-iteration-count: 1;
+    }
+
+    .bubble-width:hover {
+        animation: animateElement ease 4s;
+        animation-iteration-count: 1;
+        transform: scaleY(10);
+    }
+
+    @keyframes animateElement-width{
+        0% {
+            /*transform: scaleY(0);*/
+            width: 1% !important;
+        }
+        100% {
+            /*transform: scaleY(1);*/
+            width: 100% !important;
+        }
+    }
+
+    .bubble-left {
+        animation: animateElement-left ease .3s;
+        animation-iteration-count: 1;
+    }
+
+    .check {
+        top: -1px;
+    }
+
+    @keyframes animateElement-left{
+        0% {
+            opacity:0;
+            transform:  translate(-2px,0px);
+        }
+        100% {
+            opacity:1;
+            transform:  translate(0px,0px);
+        }
+    }
+    .bubble-right {
+        animation: animateElement-right ease .3s;
+        animation-iteration-count: 1;
+    }
+
+    @keyframes animateElement-right{
+        0% {
+            opacity:0;
+            transform:  translate(2px,0px);
+        }
+        100% {
+            opacity:1;
+            transform:  translate(0px,0px);
+        }
+    }
+
+    .tooltiped:hover ~ .tooltip {
+        opacity: 0.8;
+        transition:  1s;
+        margin-top: 2px;
+        z-index: 2;
+        transition-delay:  1s;
+    }
+
+    .tooltiped ~ .tooltip {
+        opacity: 0;
+        margin-top: 2px;
+        z-index: -1;
+
+        transition: opacity 1s linear;
+        transition: z-index 1s linear;
+    }
+</style>
+
+<body style="min-width: 350px">
+
+    <div class="container mt-sm-1 mt-md-1 mb-1 mb-md-5">
+        <div class="row justify-content-center">
+            <div class="col-12 col-md-8">
+                <div class="card border-primary">
+                    <img class="card-img-top " src="Images/poster_small.png" alt="Card image cap">
+
+                    <div class="card-body border-secondary d-none d-sm-block">
+                        <h3 class="card-title">Options</h3>
+                        <p class="card-text">Statistics:</p>
+                        <div class="progress statistics " style="opacity: 0.8; height: 20px; text-overflow: ellipsis !important;">
+                        </div>
+                    </div>
+                    <div class="card-body border-secondary">
+                        <h5 class="card-title">General:</h5>
+                        <ul class="list-group">
+                            <li class="list-group-item">
+                                <div class="row">
+                                    <div class="col-10">
+                                        <h6>Context menu on images</h6>
+                                    </div>
+                                    <div class="col-2">
+                                        <div class="tg-container tg-disabled tooltiped" title="">
+                                            <input class="toggle_input" checked disabled type="checkbox" id="img_options" style="display:none"/>
+                                            <label for="img_options" class="toggle "><span></span></label>
+                                        </div>
+                                        <div class="tooltip bs-tooltip-left show" style="width: 200px; margin-top: -12px; margin-left: -200px">
+                                            <div class="tooltip-inner">It is better to turn off the extension</div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </li>
+                            <li class="list-group-item">
+                                <div class="row">
+                                    <div class="col-10">
+                                        <h6>Context menu on background images</h6>
+                                        <p class="d-none d-sm-block">
+                                            Link on such images are usually hidden in propeties of element<br>
+                                            <code class="highlighter-rouge">style="background-image: url(http://...)"</code>.
+                                        </p>
+                                    </div>
+                                    <div class="col-2">
+                                        <div class="tg-container" title="">
+                                            <input class="toggle_input" type="checkbox" id="bg_img_options" style="display:none"/>
+                                            <label for="bg_img_options" class="toggle"><span></span></label>
+                                        </div>
+                                    </div>
+                                </div>
+                            </li>
+                            <li class="list-group-item">
+                                <div class="row">
+                                    <div class="col-10">
+                                        <h6>Context menu on videos</h6>
+                                        <p class="d-none d-sm-block">Search by frame from the video is using the <code class="highlighter-rouge">chrome.tabs.captureVisibleTab()</code> API.</p>
+                                    </div>
+                                    <div class="col-2">
+                                        <div class="tg-container" title="">
+                                            <input class="toggle_input" type="checkbox" id="video_options" style="display:none"/>
+                                            <label for="video_options" class="toggle"><span></span></label>
+                                        </div>
+                                    </div>
+                                </div>
+                            </li>
+                            <li class="list-group-item">
+                                <div class="row">
+                                    <div class="col-10">
+                                        <h6>Context menu on CANVAS and SVG <span class="badge badge-secondary">Soon</span></h6>
+                                        <p class="d-none d-sm-block">
+                                            soon
+                                        </p>
+                                    </div>
+                                    <div class="col-2">
+                                        <div class="tg-container tg-disabled" title="">
+                                            <input class="toggle_input" disabled type="checkbox" id="canvas_svg_options" style="display:none"/>
+                                            <label for="canvas_svg_options" class="toggle"><span></span></label>
+                                        </div>
+                                    </div>
+                                </div>
+                            </li>
+                            <li class="list-group-item mt-1">
+                                <div class="row">
+                                    <div class="col-10">
+                                        <h6 class="mt-2" >Collect statisrics</h6>
+                                        <p class="d-none d-sm-block">
+                                        </p>
+                                    </div>
+                                    <div class="col-2">
+                                        <div class="tg-container" title="">
+                                            <input class="toggle_input" type="checkbox" id="statistics_options" style="display:none"/>
+                                            <label for="statistics_options" class="toggle"><span></span></label>
+                                        </div>
+                                    </div>
+                                </div>
+                            </li>
+                            <li class="list-group-item">
+                                <div class="row">
+                                    <div class="col-10">
+                                        <h6 class="mt-2" >Enable history</h6>
+                                        <p class="d-none d-sm-block">
+                                        </p>
+                                    </div>
+                                    <div class="col-2">
+                                        <div class="tg-container" title="">
+                                            <input class="toggle_input" type="checkbox" id="history_options" style="display:none"/>
+                                            <label for="history_options" class="toggle"><span></span></label>
+                                        </div>
+                                    </div>
+                                </div>
+                            </li>
+                            <li class="list-group-item">
+                                <div class="row">
+                                    <div class="col-10">
+                                        <h6 class="mt-2" >Notification on upload <span class="badge badge-secondary">Soon</span></h6>
+                                        <p class="d-none d-sm-block">Show notification when image was uploaded to hosting</p>
+                                    </div>
+                                    <div class="col-2">
+                                        <div class="tg-container tg-disabled" title="">
+                                            <input class="toggle_input " checked disabled type="checkbox" id="img_not_options" style="display:none"/>
+                                            <label for="img_not_options" class="toggle"><span></span></label>
+                                        </div>
+                                    </div>
+                                </div>
+                            </li>
+                            <li class="list-group-item">
+                                <div class="row">
+                                    <div class="col-10">
+                                        <h6 class="mt-2" >Upload all <span class="badge badge-secondary">Soon</span></h6>
+                                        <p class="d-none d-sm-block">Upload all images to hosting</p>
+                                    </div>
+                                    <div class="col-2">
+                                        <div class="tg-container tg-disabled" title="">
+                                            <input class="toggle_input" disabled type="checkbox" id="upload_all_options" style="display:none"/>
+                                            <label for="upload_all_options" class="toggle"><span></span></label>
+                                        </div>
+                                    </div>
+                                </div>
+                            </li>
+                            <li class="list-group-item list-group-item-light d-none d-sm-block">
+                                <div class="row">
+                                    <div class="col-9 col-md-10 col-lg-9 col-xl-9">
+                                        <h5>Reset data</h5>
+                                        <div class="container">
+                                            <div class="row">
+                                                <div class="form-check form-group">
+                                                    <input class="md-checkbox form-check-input" type="checkbox" id="reset_searchers" style="display: none;">
+                                                    <label for="reset_searchers" class="check">
+                                                        <svg width="18px" height="18px" viewBox="0 0 18 18">
+                                                            <path d="M1,9 L1,3.5 C1,2 2,1 3.5,1 L14.5,1 C16,1 17,2 17,3.5 L17,14.5 C17,16 16,17 14.5,17 L3.5,17 C2,17 1,16 1,14.5 L1,9 Z"></path>
+                                                            <polyline points="1 9 7 14 15 4"></polyline>
+                                                        </svg>
+                                                    </label>
+                                                    <label class="form-check-label" for="reset_searchers">Search engines</label>
+                                                </div>
+                                                <div class="form-check form-group">
+                                                    <input class="md-checkbox" type="checkbox" id="reset_options" style="display: none;">
+                                                    <label for="reset_options" class="check tooltiped">
+                                                        <svg width="18px" height="18px" viewBox="0 0 18 18">
+                                                            <path d="M1,9 L1,3.5 C1,2 2,1 3.5,1 L14.5,1 C16,1 17,2 17,3.5 L17,14.5 C17,16 16,17 14.5,17 L3.5,17 C2,17 1,16 1,14.5 L1,9 Z"></path>
+                                                            <polyline points="1 9 7 14 15 4"></polyline>
+                                                        </svg>
+                                                    </label>
+                                                    <label class="form-check-label tooltiped" for="reset_options">Options</label>
+                                                    <div class="tooltip bs-tooltip-bottom show" style="width: 150px">
+                                                        <div class="arrow" style="left: 5px;"></div>
+                                                        <div class="tooltip-inner"><b>Useless</b> checkbox</div>
+                                                    </div>
+
+                                                </div>
+                                                <div class="form-check form-group">
+                                                    <input class="md-checkbox" type="checkbox" id="reset_statistics" style="display: none;">
+                                                    <label for="reset_statistics" class="check">
+                                                        <svg width="18px" height="18px" viewBox="0 0 18 18">
+                                                            <path d="M1,9 L1,3.5 C1,2 2,1 3.5,1 L14.5,1 C16,1 17,2 17,3.5 L17,14.5 C17,16 16,17 14.5,17 L3.5,17 C2,17 1,16 1,14.5 L1,9 Z"></path>
+                                                            <polyline points="1 9 7 14 15 4"></polyline>
+                                                        </svg>
+                                                    </label>
+                                                    <label class="form-check-label" for="reset_statistics">Statistics</label>
+                                                </div>
+                                                <div class="form-check form-group">
+                                                    <input class="md-checkbox" type="checkbox" id="reset_history" style="display: none;">
+                                                    <label for="reset_history" class="check">
+                                                        <svg width="18px" height="18px" viewBox="0 0 18 18">
+                                                            <path d="M1,9 L1,3.5 C1,2 2,1 3.5,1 L14.5,1 C16,1 17,2 17,3.5 L17,14.5 C17,16 16,17 14.5,17 L3.5,17 C2,17 1,16 1,14.5 L1,9 Z"></path>
+                                                            <polyline points="1 9 7 14 15 4"></polyline>
+                                                        </svg>
+                                                    </label>
+                                                    <label class="form-check-label" for="reset_history">History</label>
+                                                </div>
+                                                <div class="form-check form-group">
+                                                    <input class="md-checkbox" type="checkbox" id="reset_func" style="display: none;">
+                                                    <label for="reset_func" class="check">
+                                                        <svg width="18px" height="18px" viewBox="0 0 18 18">
+                                                            <path d="M1,9 L1,3.5 C1,2 2,1 3.5,1 L14.5,1 C16,1 17,2 17,3.5 L17,14.5 C17,16 16,17 14.5,17 L3.5,17 C2,17 1,16 1,14.5 L1,9 Z"></path>
+                                                            <polyline points="1 9 7 14 15 4"></polyline>
+                                                        </svg>
+                                                    </label>
+                                                    <label class="form-check-label" for="reset_func">Custom upload fx <span class="badge badge-secondary">Soon </span></label>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-12 col-sm-3 col-lg-2 ml-xl-auto mr-xl-3">
+                                        <div class="card-body" style="top: calc(50% - 47px); left: calc(50% - 70px)">
+                                            <button class="btn btn-danger btn-lg" id="reset">
+                                                Reset
+                                            </button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </li>
+                        </ul>
+                    </div>
+                    <!--<div class="card-header card-footer">
+                        <b>General:</b>
+                    </div>
+
+                    <div class="card-header card-footer">
+                        <b>Search engines:</b>
+                        .d-none .d-sm-block
+                    </div>-->
+                    <div class="card-body border-secondary">
+                        <h5 class="card-title">Search engines:</h5>
+                        <a href="#add" class="card-link d-none d-sm-block">Add new</a>
+                        <ul class="list-group mt-3" id="search-engines">
+                            <li class="list-group-item search-engine bubble searchMainBody">
+                                <div class="d-block d-sm-none">
+                                    <div class="row options-xs">
+                                        <div class="col-10">
+                                            <h6 class="search-title-xs"></h6>
+                                        </div>
+                                        <div class="col-2">
+                                            <div class="tg-container" title="">
+                                                <input class="toggle_input"  type="checkbox" id="new" style="display:none"/>
+                                                <label for="new" class="toggle"><span></span></label>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="row d-none d-sm-block">
+                                    <div class="col-12">
+                                        <div class="row searchMainBody">
+                                            <div class="col-1">
+                                                <div class="btn-group-vertical searchMover" style="display: none; position: absolute">
+                                                    <button type="button" class="btn btn-light moveUp"><i class="fas fa-angle-up"></i></button>
+                                                    <button type="button" class="btn btn-light moveDown"><i class="fas fa-angle-down"></i></button>
+                                                </div>
+                                                <h1><span class="badge badge-secondary bg-light number">0</span></h1>
+                                            </div>
+                                            <div class="col-8 col-sm-8 col-md-8 col-lg-9">
+                                                <div class="input-group ">
+                                                    <div class="input-group-prepend">
+                                                        <span class="input-group-text">Title</span>
+                                                    </div>
+                                                    <input type="text" class="form-control search-engine-title" placeholder="Google Search" aria-label="Username" aria-describedby="basic-addon2">
+                                                </div>
+                                                <div class="input-group input-group-sm mt-2">
+                                                    <div class="input-group-prepend">
+                                                        <span class="input-group-text">Link</span>
+                                                    </div>
+                                                    <input type="text" class="form-control search-url" placeholder="http://">
+                                                </div>
+                                            </div>
+                                            <div class="col-auto ml-md-1 col-md-1 searchControl bubble-right" style="">
+                                                <div class="btn-group-vertical search-toggler" style="height: 100%">
+                                                    <div class="btn tg-shine mr-1 ">
+                                                        <input class="toggle_input " type="checkbox" id="cbx" style="display:none"/>
+                                                        <label for="cbx" class="toggle tg-container"><span></span></label>d
+                                                    </div>
+                                                    <div class="btn-group dropleft search-engine-menu" role="group">
+                                                        <button  type="button" class="btn btn-outline-info dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                                            more
+                                                        </button>
+                                                        <div class="dropdown-menu dropdown-menu-right" aria-labelledby="btnGroupDrop1">
+                                                            <button class="dropdown-item activateMove" type="button">Move</button>
+                                                            <div class="dropdown-divider"></div>
+                                                            <button class="dropdown-item removeSearch" type="button">Delete</button>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+
+                                            <!--Save buttons-->
+                                            <div class="col-auto ml-md-1 col-md-1 searchSaver bubble-left" style="">
+                                                <div class="btn-group-vertical search-toggler" style="height: 100%; ">
+                                                    <button class="btn btn-outline-success searchSave">
+                                                        <i class="far fa-lg fa-check-circle"></i>
+                                                    </button>
+                                                    <button class="btn btn-outline-danger searchCancel">
+                                                        <i style="position: absolute; top: calc(50% - 7px); left: calc(49% - 10px);" class="far fa-lg fa-times-circle"></i>
+                                                        <i style="visibility: hidden">porerrt.</i>
+                                                    </button>
+                                                </div>
+                                            </div>
+
+
+
+                                            <!--<div class="alert tg-shine mr-1 search-toggler" style="height: 100%">
+                                                <input class="toggle_input " type="checkbox" id="cbx" style="display:none"/>
+                                                <label for="cbx" class="toggle tg-container"><span></span></label>
+                                            </div>-->
+                                        </div>
+                                    </div>
+                                </div>
+
+
+
+                            </li>
+                            <li class="list-group-item list-group-item-secondary bubble mb-3" id="addItem">
+                                <div class="row d-none d-sm-block">
+                                    <div class="col-12">
+                                        <div class="row">
+                                            <div class="col-1">
+                                                <h1><span class="badge badge-info number">0</span></h1>
+                                            </div>
+                                            <div class="col-8 col-sm-8 col-md-8 col-lg-9">
+                                                <div class="input-group ">
+                                                    <div class="input-group-prepend">
+                                                        <span class="input-group-text">Title</span>
+                                                    </div>
+                                                    <input type="text" class="form-control search-engine-title" placeholder="Google Search" aria-label="Username" aria-describedby="basic-addon2">
+                                                </div>
+                                                <div class="input-group input-group-sm mt-2">
+                                                    <div class="input-group-prepend">
+                                                        <span class="input-group-text">Link</span>
+                                                    </div>
+                                                    <input type="text" class="form-control search-url" placeholder="http://">
+                                                </div>
+                                            </div>
+
+                                            <!--Add button-->
+                                            <div class="col-auto ml-md-1 col-md-1 searchSaver" style="">
+                                                <div class="btn-group-vertical search-toggler" style="/*height: 100%; */">
+                                                    <button class="btn btn-info" id="add">
+                                                        <i style="position: absolute; top: calc(50% - 15px); left: calc(50% - 14px);" class="fas fa-plus fa-2x"></i>
+                                                        <i style="visibility: hidden;"><br>porerrt.<br></i>
+                                                    </button>
+                                                </div>
+                                            </div>
+
+
+
+                                            <!--<div class="alert tg-shine mr-1 search-toggler" style="height: 100%">
+                                                <input class="toggle_input " type="checkbox" id="cbx" style="display:none"/>
+                                                <label for="cbx" class="toggle tg-container"><span></span></label>
+                                            </div>-->
+                                        </div>
+                                    </div>
+                                </div>
+                            </li>
+
+                        </ul>
+                        <div class="row bubble d-none d-sm-block">
+                            <div class="col-12">
+                                <div class="alert alert-warning paddings text-center">
+                                    <i class="fas fa-exclamation-triangle"></i>
+                                    Inputs above do not pass any tests for validity.
+                                    Be careful.
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="card-body bubble bubble d-none d-sm-block">
+                        <h5 class="card-title">Image hosting <span class="badge badge-secondary">Soon</span></h5>
+                        <p class="card-text">
+                            You can write your own JS function for uploading images to image hostings.
+                        </p>
+                        <div class="input-group mb-1">
+                            <div class="input-group-prepend">
+                                <span class="input-group-text">function</span>
+                            </div>
+                            <textarea id="func" class="form-control" aria-label="With textarea" style="min-height: 200px"></textarea>
+                        </div>
+                        <div class="row bubble d-none d-sm-block">
+                            <div class="col-12">
+                                <div class="alert alert-danger text-center">
+                                    <i class="fas fa-exclamation-triangle"></i>
+                                    Don't paste code from unreliable sources. It may be dangerous.
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+<script src="scripts/options.js"></script>
+<script src="scripts/statistics.js"></script>
+</html>

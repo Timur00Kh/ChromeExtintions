@@ -1,0 +1,269 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Image Searcher</title>
+    <link href="css/bootstrap/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.1.1/css/all.css">
+    <link rel="stylesheet" href="css/MDCheckbox.css">
+
+    <style>
+        .check {
+            top: -1px;
+        }
+
+        input:read-only {
+            background-color: white !important;
+        }
+
+        .worder {
+            -webkit-padding-start: 0;
+            /*word-wrap: break-word;*/
+            white-space: nowrap;
+            text-overflow: ellipsis;
+            overflow: hidden;
+        }
+        .bubble {
+            animation: animateElement linear .3s;
+            animation-iteration-count: 1;
+        }
+        @keyframes animateElement{
+            0% {
+                opacity:0;
+                transform:  translate(0px,10px);
+            }
+            100% {
+                opacity:1;
+                transform:  translate(0px,0px);
+            }
+            img {
+                max-height: 100% !important;
+                max-width: 100% !important;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="row mt-4 mb-4">
+            <div class="col-2 mt-4">
+                <nav class="nav flex-column mt-4 d-none d-lg-block d-xl-none d-none d-xl-block" style="position:fixed;">
+                    <a href="#image" class="nav-link">Image</a>
+                    <a href="#search" class="nav-link">Search</a>
+                    <a href="#urls" class="nav-link">URLs</a>
+                    <a href="#info" class="nav-link">Info</a>
+                    <a href="#download" class="nav-link">Download</a>
+                    <a href="#history" class="nav-link">History</a>
+                </nav>
+            </div>
+            <div class="col-12 col-sm-12 col-md-12 col-lg-8 border-primary">
+                <div class="card" id="img-holder">
+                    <!--<img id="img" class=" card-img-top border-primary" src="https://pp.userapi.com/c629101/v629101985/18d61/ZWJBrfCphlY.jpg" alt="Card image cap">-->
+                    <!--<h class="card-header">Info: <code class="highlighter-rouge">dfgdgdfgdg</code></h>-->
+
+                    <div class="card-body">
+                        <div class="text-center mt-4 mb-5" id="load-img">
+                            <i class="fas fa-spinner fa-4x fa-spin"></i>
+                        </div>
+                        <div class="row justify-content-center">
+                            <a href="#search" class="card-link">Search</a>
+                            <a href="#info" class="card-link">Info</a>
+                            <a href="#urls" class="card-link">URLs</a>
+                            <a href="#download" class="card-link">Download</a>
+                            <a href="#history" class="card-link">History</a>
+                        </div>
+                        <h4 class="card-title mt-3" id="search">Search:</h4>
+                        <ul id="searchh" class="worder">
+                            <li class="list-group-item list-group-item-light">
+                                <div class="row">
+                                    <div class="col-10 col-lg-9">
+                                        <h5></h5>
+                                        <div  class="container">
+                                            <div id="searchs_container" class="row">
+                                                <div  class="form-check form-group search_container">
+                                                    <input class="md-checkbox form-check-input" type="checkbox" id="search_check" style="display: none;">
+                                                    <label for="search_check" class="check">
+                                                        <svg width="18px" height="18px" viewBox="0 0 18 18">
+                                                            <path d="M1,9 L1,3.5 C1,2 2,1 3.5,1 L14.5,1 C16,1 17,2 17,3.5 L17,14.5 C17,16 16,17 14.5,17 L3.5,17 C2,17 1,16 1,14.5 L1,9 Z"></path>
+                                                            <polyline points="1 9 7 14 15 4"></polyline>
+                                                        </svg>
+                                                    </label>
+                                                    <label class="form-check-label search_title" for="search_check">Search engines</label>
+                                                </div>
+
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-12 col-lg-2 ml-lg-5 ml-5 ml-lg-0">
+                                        <div class="row" style="">
+                                            <button class="btn btn-outline-info btn-lg" id="search_btn">
+                                                Search
+                                            </button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </li>
+                        </ul>
+
+                        <h4 id="urls" class="card-title">URLs:</h4>
+                        <!--<p class="card-text">Original size: <code class="highlighter-rouge">800x420</code></p>-->
+                        <div class="input-group mb-2">
+                            <div class="input-group-prepend">
+                                <span class="input-group-text">
+                                    URL:
+                                </span>
+                            </div>
+                            <input id="url" type="text" class="form-control" readonly placeholder="Image hasn't public link" value=""  aria-label="Username" aria-describedby="basic-addon1">
+                            <div class="input-group-append">
+                                <button disabled class="input-group-text btn btn-outline-info" id="url_copy"><i class="far fa-copy"></i></button>
+                                <button disabled target="_blank"  class="input-group-text btn btn-outline-info" id="url_open">Open</button>
+                                <!--<a href="#upload" class="btn btn-outline-info" id="url_get">Upload to hosting</a>-->
+
+                            </div>
+                        </div>
+                        <div class="input-group mb-2">
+                            <div class="input-group-prepend">
+                                <span class="input-group-text">
+                                    dataURL:
+                                </span>
+                            </div>
+                            <input id="data" type="text" class="form-control" readonly placeholder="Get base64 data URL ----------------->"  aria-label="Username" value="" aria-describedby="basic-addon1">
+                            <div class="input-group-append">
+                                <button class="input-group-text btn btn-outline-info" style="display: none" id="data_copy"><i class="far fa-copy"></i></button>
+                                <button class="input-group-text btn btn-outline-info" style="display: none" id="data_open">Open</button>
+                                <button href="" class="btn btn-outline-info" id="data_get">Get base64 URL</button>
+
+                            </div>
+                        </div>
+                        <div class="input-group mb-3">
+                            <div class="input-group-prepend">
+                                <span class="input-group-text">
+                                    Image hosting URL:
+                                </span>
+                            </div>
+                            <input id="hosting" type="text" class="form-control" readonly placeholder="Get public link --------------->"  aria-label="Username" aria-describedby="basic-addon1">
+                            <div class="input-group-append">
+                                <button class="input-group-text btn btn-outline-info" style="display: none" id="hosting_copy"><i class="far fa-copy"></i></button>
+                                <button class="input-group-text btn btn-outline-info" style="display: none" id="hosting_open">Open</button>
+                                <button class="btn btn-outline-info" id="upload">Upload</button>
+                            </div>
+                        </div>
+                        <h4 class="card-title" id="info">Info:</h4>
+                        <ul class="list-group worder">
+                            <li class="list-group-item">
+                                <div class="row">
+                                    <div class="col-12 col-sm-4">
+                                        Location:
+                                    </div>
+                                    <div id="location" class="col-12 col-sm-8">
+                                        <a></a>
+                                    </div>
+                                </div>
+                            </li>
+                            <li class="list-group-item">
+                                <div class="row">
+                                    <div class="col-12 col-sm-4">
+                                        Original size:
+                                    </div>
+                                    <div id="size" class="col-12 col-sm-2">
+                                        <i class="fas fa-spinner fa-spin"></i>
+                                    </div>
+                                    <div id="scaledSize" class="col-12 col-sm-5 ml-sm-2 ml-md-0">
+                                        (Scaled to 666 x 444)
+                                    </div>
+                                </div>
+                            </li>
+                            <li class="list-group-item">
+                                <div class="row">
+                                    <div class="col-12 col-sm-4">
+                                        File type:
+                                    </div>
+                                    <div id="type" class="col-12 col-sm-8">
+                                        <i class="fas fa-spinner fa-spin fa-spin"></i>
+                                    </div>
+                                </div>
+                            </li>
+                            <li class="list-group-item">
+                                <div class="row">
+                                    <div class="col-12 col-sm-4">
+                                        File size:
+                                    </div>
+                                    <div id="fileSize" class="col-12 col-sm-8">
+                                        <i class="fas fa-spinner fa-spin"></i>
+                                    </div>
+                                </div>
+                            </li>
+                            <li class="list-group-item">
+                                <div class="row">
+                                    <div class="col-12 col-sm-4">
+                                        Alt / title:
+                                    </div>
+                                    <div class="col-12 col-sm-8">
+                                        <i class="fas fa-spinner fa-spin"></i>
+                                    </div>
+                                </div>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="card mt-3">
+                    <div class="card-body" id="download">
+                        <h4 class="card-title">Download: <span class="badge badge-secondary">beta</span></h4>
+                        <div class="input-group mb-3">
+                            <div class="input-group-prepend">
+                                <span class="input-group-text" id="basic-addon1">File name</span>
+                            </div>
+                            <input type="text" class="form-control" id="download_input" placeholder="image.png">
+                            <div class="input-group-append">
+                                <span class="input-group-text">
+                                    <div class="mr-2">
+                                        <input class="md-checkbox" type="checkbox" id="save_as" style="display: none;">
+                                        <label for="save_as" class="check">
+                                            <svg width="18px" height="18px" viewBox="0 0 18 18">
+                                                <path d="M1,9 L1,3.5 C1,2 2,1 3.5,1 L14.5,1 C16,1 17,2 17,3.5 L17,14.5 C17,16 16,17 14.5,17 L3.5,17 C2,17 1,16 1,14.5 L1,9 Z"></path>
+                                                <polyline points="1 9 7 14 15 4"></polyline>
+                                            </svg>
+                                        </label>
+                                        <label class="form-check-label" for="save_as">Save as</label>
+                                    </div>
+                                </span>
+                                <button class="btn btn-outline-info" id="download_btn" type="button">Download</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="card mt-3">
+                    <div class="card-body" id="history">
+                        <h4 class="card-title">History:</h4>
+                        <!--<h6 class="card-subtitle">sfsfsd</h6>-->
+                        <ul class="list-group" id="history_holder">
+                            <li class="list-group-item  history_item bubble">
+                                <div class="row">
+                                    <div class="col-3 col-xs-2 col-sm-2 co-md-2 co-lg-2 co-xl-2">
+                                        <img src="" class="img-thumbnail history_img">
+                                    </div>
+                                    <div class="col-8 col-sm-7 col-md-8 col-lg-8 col-xl-8  worder d-none d-sm-block">
+                                        <b>Url: </b><a class="history_item_url"></a><br>
+                                        <b>Location: </b><a class="history_item_location"></a><br>
+                                        <i class="text-muted date"></i>
+                                    </div>
+                                    <div class="col-9 col-sm-3 col-md-2 col-lg-2 col-xl-2 ml-5-auto ml-sm-0">
+                                        <div class="row justify-content-end bubble">
+                                            <div class="btn-group mr-2 mr-md-1 " >
+                                                <a class="btn btn-outline-info history_item_link">Open</a>
+                                                <button class="btn btn-info delete_history_item "><i class="fa fa-lg fa-times"></i></button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </li>
+                        </ul>
+                        <button class="btn btn-block btn-outline-info mt-2" id="history_load_btn"><i class="fas fa-plus"></i></button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+<script src="scripts/newTab.js"></script>
+</html>

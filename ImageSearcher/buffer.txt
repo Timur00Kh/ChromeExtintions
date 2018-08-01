@@ -1,0 +1,164 @@
+chrome.tabs.query({
+        'active': true,
+        'lastFocusedWindow': true
+    }, function(tabs) {
+        console.log(request);
+        if (request.src != vid.src) return;
+        vid.pause();
+        console.log(vid);
+
+        if (!request.fullscreen_options) {
+            fullScreenCapture();
+        } else {
+            canvasUp();
+        }
+
+        function fullScreenCapture() {
+            var tries = 0;
+
+
+            if (document.onwebkitfullscreenchange) {
+                document.onwebkitfullscreenchange = function (e) {
+                    s1(e);
+                };
+            } else if (document.onfullscreenchange) {
+                document.onfullscreenchange = function (e) {
+                    s1(e);
+                };
+            } else if (document.onmozfullscreenchange) {
+                document.onmozfullscreenchange = function (e) {
+                    s1(e);
+                };
+            } else if (document.MSFullscreenChange) {
+                document.MSFullscreenChange = function (e) {
+                    s1(e);
+                };
+            }
+
+            function onerr(ev) {
+                console.log(ev);
+                console.log("err: " + tries);
+                if (tries === 2) canvasUp();
+                if (document.webkitFullscreenElement ||
+                    document.fullscreenElement ||
+                    document.mozFullScreenElement ||
+                    document.msFullscreenElement) {
+
+                    exitFullscreen();
+                    if (requestFullscreen(vid)) {
+                        s1();
+                    }
+                    tries++;
+
+                } else canvasUp();
+            }
+
+            function requestFullscreen(elem) {
+                if (elem.webkitRequestFullscreen) {
+                    elem.webkitRequestFullscreen();
+                    return true;
+                } else if (elem.requestFullscreen) {
+                    elem.requestFullscreen();
+                    return true;
+                } else if (elem.msRequestFullscreen) {
+                    elem.msRequestFullscreen();
+                    return true;
+                } else if (elem.mozRequestFullScreen) {
+                    elem.mozRequestFullScreen();
+                    return true;
+                }
+                return false;
+                console.log("requestFullscreen");
+            }
+
+            function exitFullscreen() {
+                if (document.webkitExitFullscreen) {
+                    document.webkitExitFullscreen()
+                } else if (document.mozCancelFullScreen) {
+                    document.mozCancelFullScreen()
+                } else if (document.exitFullscreen) {
+                    document.exitFullscreen()
+                } else if (document.msExitFullscreen) {
+                    document.msExitFullscreen();
+                }
+            }
+
+            if (document.onfullscreenerror) {
+                document.onfullscreenerror = function (e) {
+                    onerr(e)
+                };
+            } else if (document.onwebkitfullscreenerror) {
+                document.onwebkitfullscreenerror = function (e) {
+                    onerr(e)
+                };
+            } else if (document.onmozfullscreenerror) {
+                document.onmozfullscreenerror = function (e) {
+                    onerr(e)
+                };
+            } else if (document.MSFullscreenError) {
+                document.MSFullscreenError = function (e) {
+                    onerr(e)
+                };
+            }
+
+            if (document.webkitFullscreenEnabled ||
+                document.fullscreenEnabled ||
+                document.mozFullScreenEnabled ||
+                document.msFullscreenEnabled) {
+
+                if (requestFullscreen(vid)) {
+                    s1();
+                }
+
+            } else {
+                canvasUp();
+            }
+
+            function s1(e) {
+                console.log(e);
+                sendRes();
+                setTimeout(function () {
+                    exitFullscreen();
+                }, 5000);
+            }
+        }
+
+        function sendRes() {
+            console.log("sendRes");
+
+            setTimeout(function () {
+                sendResponse({
+                    dimensions: vid.getBoundingClientRect(),
+                    window: {
+                        maxHeight: document.documentElement.clientHeight,
+                        maxWidth:  document.documentElement.clientWidth
+                    },
+                    src: vid.src,
+                    status: "ok",
+                    type: "video_prop"
+                })
+            }, 1000)
+        }
+
+
+        function canvasUp() {
+            var canvas = document.createElement("canvas");
+            var d = getCoords(vid);
+            canvas.width = d.width;
+            canvas.height = d.height;
+            var context = canvas.getContext("2d");
+            context.drawImage(vid, 0, 0, d.width, d.height);
+            vid.parentNode.append(canvas);
+            canvas.style.position = "absolute";
+            canvas.style.zIndex = 99999;
+            canvas.style.top = d.top + "px";
+            canvas.style.left = d.left + "px";
+            console.log(canvas);
+            sendRes();
+            setTimeout(function () {
+                canvas.remove();
+                vid = {};
+            }, 5000)
+        }
+    });
+    return true;

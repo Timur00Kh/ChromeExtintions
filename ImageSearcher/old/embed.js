@@ -70,7 +70,6 @@ function inject(elem) {
 		}
 
 		e.logo.onclick = function() {
-			chrome.runtime.sendMessage({todo: "openNewTab", url: e.cover.src});
 
 			/*
 			//soon... may be
