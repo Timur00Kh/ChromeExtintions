@@ -1,0 +1,41 @@
+.box228 {
+    width: 200px;
+    height: 100px;
+    border: 2px solid #444444;
+    /*margin: 0 auto 15px;*/
+    /*top: 100%;*/
+    left: calc(50% - 100px);
+    text-align: center;
+    padding: 20px;
+    font-weight: bold !important;
+    border-radius: 10px;
+    animation: b228 1.5s ease-in;
+    opacity: 0;
+    z-index: 99999999;
+    background-color: black;
+    position: absolute;
+    font-size: large !important;
+}
+
+.box228container {
+    position: absolute;
+    animation: b228 1.5s ease-in;
+    opacity: 0;
+    left: calc(50% - 100px);
+    z-index: 99999999;
+
+}
+
+@keyframes b228 {
+    0% {
+        opacity: 0.7;
+    }
+    100% {
+        opacity: 0;
+    }
+}
+
+@font-face {
+    font-family: 'Questrial', sans-serif;
+    src: url('https://fonts.googleapis.com/css?family=Questrial');
+}

@@ -84,10 +84,10 @@ chrome.runtime.onMessage.addListener(function(request, sender, sendResponse) {
         canvas.style.left = d.left + "px";
         sendResponse("ok");
         console.log(canvas.toDataURL());
-        /*setTimeout(function () {
+        setTimeout(function () {
             canvas.remove();
             vid = {};
-        }, 5000);*/
+        }, 5000);
 
 
         function appendCanvas(canvas) {

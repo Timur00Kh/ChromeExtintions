@@ -1,0 +1,33 @@
+"commands": {
+    "speed_up": {
+      "suggested_key": {
+        "default": "Ctrl+Period"
+      },
+    "description": "speed up video playback"
+    },
+    "slow_down": {
+      "suggested_key": {
+        "default": "Ctrl+Comma"
+      },
+    "description": "slow down video playback"
+    },
+    "default_speed": {
+      "suggested_key": {
+        "default": "Ctrl+L"
+      },
+    "description": "set default speed video playback"
+    }
+  },
+
+
+// if (options.browserCommands) {
+    chrome.commands.onCommand.addListener(function(command) {
+        console.log('Command:', command);
+        // if (options.browserCommands) {
+            chrome.tabs.sendMessage(tabID, command, function (res) {});
+        // }
+    });
+// }
+
+
+chrome://extensions/shortcuts

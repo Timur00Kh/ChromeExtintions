@@ -229,6 +229,16 @@ function init() {
             });
         }
     });
+
+    /*Context menus for Videos*/
+    if (!options["video_options"]) {
+        chrome.contextMenus.create({
+            id: "vid_search",
+            title: "Open frame in ImageSearcher",
+            contexts: ["video"],
+            onclick: videoOnClick
+        });
+    }
 }
 init();
 
@@ -268,7 +278,7 @@ chrome.runtime.onMessage.addListener(function(request, sender, sendResponse) {
         updateContextMenus();
     }
     if (request.type === "video" && !options["video_options"]){
-        updateContextVideoMenus()
+        // updateContextVideoMenus()
     }
     if (request.type === "video_prop"){
         current.dimensions = request.dimensions;
@@ -353,50 +363,51 @@ function videoOnClick(info, tab) {
         search: SEARCH
     });
     chrome.tabs.sendMessage(tab.id, {
-        src: current.src,
-        dimensions: current.dimensions
+        src: current.src
     }, function (res) {
         console.log(res);
-        if (res !== "ok") return;
+        if (res.status !== "ok") return;
+        current.url = res.b64;
+        genericOnClick(info, tab);
 
-        setTimeout(function () {
-            chrome.tabs.captureVisibleTab(function (e) {
-                var d = current.dimensions;
-                var w = current.window;
-                console.log(d);
-                console.log(current);
-                var img = new Image();
-                img.src = e;
-                img.onload = function () {
-                    var canvas = document.createElement("canvas");
-                    var maxW = d.right > w.maxWidth ? w.maxWidth - (d.left > 0 ? d.left : 0) : d.width;
-                    var maxH = d.bottom > w.maxHeight ? w.maxHeight - (d.top > 0 ? d.top : 0) : d.height;
-                    canvas.width = d.left < 0 ? maxW + d.left : maxW;
-                    canvas.height = d.top < 0 ? maxH + d.top : maxH;
-                    var context = canvas.getContext("2d");
-                    context.drawImage(img,
-                        d.left > 0 ? d.left : 0,
-                        d.top > 0 ? d.top : 0,
-                        d.left < 0 ? maxW + d.left : maxW,
-                        d.top < 0 ? maxH + d.top : maxH,
-                        0, 0,
-                        d.left < 0 ? maxW + d.left : maxW,
-                        d.top < 0 ? maxH + d.top : maxH
-                    );
-                    current.url = canvas.toDataURL();
-                    genericOnClick(info, tab);
-                    // chrome.tabs.create({
-                    //     "url": canvas.toDataURL(),
-                    //     "index": tabInfo.tab.index + 1,
-                    //     "active": false
-                    // });
-                };
-                current = {};
-            })
-        }, 100);
-
-    });
-}
+    //     setTimeout(function () {
+    //         chrome.tabs.captureVisibleTab(function (e) {
+    //             var d = current.dimensions;
+    //             var w = current.window;
+    //             console.log(d);
+    //             console.log(current);
+    //             var img = new Image();
+    //             img.src = e;
+    //             img.onload = function () {
+    //                 var canvas = document.createElement("canvas");
+    //                 var maxW = d.right > w.maxWidth ? w.maxWidth - (d.left > 0 ? d.left : 0) : d.width;
+    //                 var maxH = d.bottom > w.maxHeight ? w.maxHeight - (d.top > 0 ? d.top : 0) : d.height;
+    //                 canvas.width = d.left < 0 ? maxW + d.left : maxW;
+    //                 canvas.height = d.top < 0 ? maxH + d.top : maxH;
+    //                 var context = canvas.getContext("2d");
+    //                 context.drawImage(img,
+    //                     d.left > 0 ? d.left : 0,
+    //                     d.top > 0 ? d.top : 0,
+    //                     d.left < 0 ? maxW + d.left : maxW,
+    //                     d.top < 0 ? maxH + d.top : maxH,
+    //                     0, 0,
+    //                     d.left < 0 ? maxW + d.left : maxW,
+    //                     d.top < 0 ? maxH + d.top : maxH
+    //                 );
+    //                 current.url = canvas.toDataURL();
+    //                 genericOnClick(info, tab);
+    //                 // chrome.tabs.create({
+    //                 //     "url": canvas.toDataURL(),
+    //                 //     "index": tabInfo.tab.index + 1,
+    //                 //     "active": false
+    //                 // });
+    //             };
+    //             current = {};
+    //         })
+    //     }, 100);
+    //
+    // });
+};
 
 function captureTab(info, tab) {
 
@@ -448,7 +459,10 @@ function genericOnClick(info, tab) {
         if (!options["history_options"]) {
             console.log(JSON.stringify(historyS));
             if (historyS.length > 50) {
-                localStorage["historyS"] = JSON.stringify(historyS.splice(50,1));
+                historyS.forEach(function (value, index, array) {
+                    if(value.deleted) historyS.splice(index, 1);
+                });
+                localStorage["historyS"] = JSON.stringify(historyS.splice(50,10));
             } else {
                 localStorage["historyS"] = JSON.stringify(historyS);
             }

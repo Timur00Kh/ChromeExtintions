@@ -197,24 +197,23 @@ function main(url, location, hosting, id) {
             });
         });
     };
+    document.getElementById("hosting_copy").onclick = function (ev) {
+        copyTextToClipboard(document.getElementById("hosting").value);
+    };
+    document.getElementById("hosting_open").onclick = function (ev) {
+        chrome.tabs.getCurrent(function (tab) {
+            chrome.tabs.create({
+                "url": document.getElementById("hosting").value,
+                "index": ++tab.index
+            });
+        });
+    }
 
     if (hosting) {
         document.getElementById("hosting").value = hosting;
         document.getElementById("hosting_copy").style.display = "";
         document.getElementById("hosting_open").style.display = "";
         document.getElementById("upload").remove();
-
-        document.getElementById("hosting_copy").onclick = function (ev) {
-            copyTextToClipboard(document.getElementById("hosting").value);
-        };
-        document.getElementById("hosting_open").onclick = function (ev) {
-            chrome.tabs.getCurrent(function (tab) {
-                chrome.tabs.create({
-                    "url": document.getElementById("hosting").value,
-                    "index": ++tab.index
-                });
-            });
-        }
     } else {
         document.getElementById("upload").onclick = function () {
             if (document.getElementById("data_get")) {
